@@ -6,12 +6,12 @@ import "@rainbow-me/rainbowkit/styles.css"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { PropsWithChildren } from "react"
 import { WagmiProvider } from "wagmi"
-import { localhost, mainnet, sepolia } from "wagmi/chains"
+import { localhost, sepolia } from "wagmi/chains"
 
 const config = getDefaultConfig({
   appName: "MyNFT",
   projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID!,
-  chains: [mainnet, ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [sepolia, localhost] : [])],
+  chains: [sepolia, ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true" ? [localhost] : [])],
   ssr: true, // If your dApp uses server side rendering (SSR)
 })
 
