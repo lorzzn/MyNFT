@@ -63,12 +63,11 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
 
         string memory json = Base64.encode(
             abi.encodePacked(
-                '{"name": "',
-                '"MyNFT #',
+                '{"name": "MyNFT #',
                 Strings.toString(tokenId),
-                '", "description": "A collection of numbers, maximum "',
-                MAX_NFT_SUPPLY,
-                ', "image": "data:image/svg+xml;base64,',
+                '", "description": "A collection of numbers, maximum ',
+                Strings.toString(MAX_NFT_SUPPLY),
+                '", "image": "data:image/svg+xml;base64,',
                 Base64.encode(bytes(svg)),
                 '"}'
             )
