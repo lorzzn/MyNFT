@@ -6,15 +6,23 @@ import { motion } from "framer-motion"
 
 type NFTCardProps = {
   data: string
+  tokenId: string
 }
 
-const NFTCard = ({ data }: NFTCardProps) => {
+const NFTCard = ({ data, tokenId }: NFTCardProps) => {
   const json = Buffer.from(data.substring(29), "base64").toString()
   const nft = JSON.parse(json) as MyNFT
 
+  const handleNFTClick = () => {
+    window.open(
+      `https://testnets.opensea.io/assets/sepolia/${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}/${tokenId}`,
+      "_blank",
+    )
+  }
+
   return (
     <Card className="nft-card w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 2xl:w-1/4 !bg-transparent !shadow-none">
-      <CardBody className="p-0 relative !bg-transparent" as={Button}>
+      <CardBody className="p-0 relative !bg-transparent" as={Button} onClick={handleNFTClick}>
         <Box>
           <Image boxSize="150px" objectFit="cover" src={nft.image} alt={nft.name} />
         </Box>

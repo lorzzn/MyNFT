@@ -109,7 +109,10 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
         uint256 index = start;
         while (index < end) {
             uint256 tokenId = tokenOfOwnerByIndex(account, index);
-            pairs[index] = [Strings.toString(tokenId), tokenURI(tokenId)];
+            pairs[index - start] = [
+                Strings.toString(tokenId),
+                tokenURI(tokenId)
+            ];
             index += 1;
         }
 

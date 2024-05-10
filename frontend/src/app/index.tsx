@@ -93,8 +93,16 @@ const App = () => {
               <span>Mint MyNFT</span>
             </Button>
           </div>
-          <div className="flex flex-wrap items-center">
-            {data.map((item) => item && <NFTCard data={item[1]} key={item[0]} />)}
+          <div className="flex flex-col">
+            <div className="flex flex-wrap items-center">
+              {data.map((item) => item && <NFTCard tokenId={item[0]} data={item[1]} key={item[0]} />)}
+            </div>
+
+            <When condition={nfts.hasNextPage}>
+              <Button variant={"link"} className="text-gray-400 !py-12" onClick={() => nfts.fetchNextPage()}>
+                load more
+              </Button>
+            </When>
           </div>
         </div>
       </Then>
