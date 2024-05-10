@@ -11,3 +11,11 @@ REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.ts
 ```
+
+# openzeppelin wizard 
+
+[wizard](https://wizard.openzeppelin.com/#erc721)
+
+# Faucet
+
+[Google Cloud Web3 - faucet](https://cloud.google.com/application/web3/faucet/ethereum)
