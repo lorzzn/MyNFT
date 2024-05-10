@@ -1,42 +1,59 @@
 "use client"
 
 import abis from "@/abis"
+import NFTCard from "@/components/NFTCard"
 import { Button, Card, CardBody, useToast } from "@chakra-ui/react"
 import { RiHammerFill } from "@remixicon/react"
-import { toString } from "lodash"
 import { useEffect } from "react"
 import { BaseError } from "viem"
-import { useInfiniteReadContracts, useWriteContract } from "wagmi"
+import { useAccount, useInfiniteReadContracts, useWriteContract } from "wagmi"
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
 
 const App = () => {
+  const account = useAccount()
   const toast = useToast()
   const contractConfig = {
     address: CONTRACT_ADDRESS,
     abi: abis.MyNFT,
   } as const
 
-  const writeFn = useWriteContract()
-  const pageParam = (pageNo: bigint, pageSize: bigint) => [pageNo, pageSize] as readonly [bigint, bigint]
+  const getOwnerNFTsParams = (pageNo: bigint, pageSize: bigint) =>
+    [account.address, pageNo, pageSize] as readonly [`0x${string}`, bigint, bigint]
   const nfts = useInfiniteReadContracts({
-    cacheKey: "getOwnerNFTs",
+    cacheKey: `getOwnerNFTs-${account.address}`,
     contracts: (args) => [{ ...contractConfig, functionName: "getOwnerNFTs", args }],
     query: {
-      initialPageParam: pageParam(1n, 30n),
-      getNextPageParam: (_lastPage, _allPages, lastPageParam) => pageParam(lastPageParam[0] + 1n, 30n),
+      enabled: !!account.address,
+      initialPageParam: getOwnerNFTsParams(1n, 30n),
+      getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
+        const [page] = _lastPage
+        const [_, pageNo, pageSize] = lastPageParam
+        if (page.error) return lastPageParam
+        if (page.result.length < pageSize) {
+          return null
+        }
+        return getOwnerNFTsParams(pageNo + 1n, pageSize)
+      },
+    },
+  })
+  const writeFn = useWriteContract({
+    mutation: {
+      onSuccess: () => nfts.refetch(),
     },
   })
 
+  // @ts-ignore
+  const data = (nfts.data?.pages.flatMap((page) => page.flatMap((s) => s.result)) || []) as [string, string][]
+
   // error dependencies
-  const errorDeps = [writeFn.failureReason, writeFn.error, nfts.failureReason, nfts.error]
+  const errorDeps = [writeFn.failureReason, nfts.failureReason]
   useEffect(() => {
-    const getErrorMessage = (error: unknown) => error && ((error as BaseError).shortMessage || (error as Error).message)
     errorDeps.forEach((e) => {
-      const errMsg = getErrorMessage(e)
+      const errMsg = e ? (e as BaseError).shortMessage || (e as Error).message : ""
       if (errMsg) {
         toast({
-          title: toString(errMsg),
+          title: errMsg,
           status: "error",
         })
       }
@@ -53,7 +70,8 @@ const App = () => {
 
   return (
     <div className="flex-1 flex flex-col">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap items-center">
+        {data.map((item) => item && <NFTCard data={item[1]} key={item[0]} />)}
         <Card>
           <CardBody
             as={Button}
