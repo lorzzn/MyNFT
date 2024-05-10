@@ -307,6 +307,11 @@ export const MyNFT = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
         internalType: "uint256",
         name: "pageNo",
         type: "uint256",
