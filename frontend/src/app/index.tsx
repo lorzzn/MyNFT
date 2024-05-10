@@ -7,7 +7,7 @@ import { RiHammerFill } from "@remixicon/react"
 import { useEffect } from "react"
 import { Else, If, Then, When } from "react-if"
 import { BaseError } from "viem"
-import { useAccount, useInfiniteReadContracts, useWriteContract } from "wagmi"
+import { useAccount, useInfiniteReadContracts, useWatchContractEvent, useWriteContract } from "wagmi"
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`
 
@@ -19,6 +19,7 @@ const App = () => {
     abi: abis.MyNFT,
   } as const
 
+  // get nft list
   const getOwnerNFTsParams = (pageNo: bigint, pageSize: bigint) =>
     [account.address, pageNo, pageSize] as readonly [`0x${string}`, bigint, bigint]
   const nfts = useInfiniteReadContracts({
@@ -38,17 +39,15 @@ const App = () => {
       },
     },
   })
-  const writeFn = useWriteContract({
-    mutation: {
-      onSuccess: (data) => {
-        toast({
-          title: "Mint Success",
-          description: `NFT Minted: ${data}`,
-          status: "success",
-          duration: 1600,
-        })
-        nfts.refetch()
-      },
+
+  // mint nft
+  const writeFn = useWriteContract()
+
+  useWatchContractEvent({
+    ...contractConfig,
+    eventName: "NFTMinted",
+    onLogs() {
+      nfts.refetch()
     },
   })
 

@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "hh:node": "hardhat node",
-    "hh:deploy-localhost": "hardhat ignition deploy ./ignition/modules/MyNFT.ts --network localhost",
-    "hh:deploy-sepolia": "hardhat ignition deploy ./ignition/modules/MyNFT.ts --network sepolia"
+    "hh:deploy-localhost": "hardhat ignition deploy ./ignition/modules/MyNFT.ts --network localhost --reset",
+    "hh:deploy-sepolia": "hardhat ignition deploy ./ignition/modules/MyNFT.ts --network sepolia --reset"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^0.15.0",

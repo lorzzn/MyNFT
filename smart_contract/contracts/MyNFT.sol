@@ -11,6 +11,11 @@ import "hardhat/console.sol";
 
 contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
     uint256 public constant MAX_NFT_SUPPLY = 99999999999999;
+    event NFTMinted(
+        address indexed to,
+        uint256 indexed tokenId,
+        string indexed tokenURI
+    );
 
     constructor() ERC721("MyNFT", "MNFT") {}
 
@@ -80,6 +85,7 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
         _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, uri);
 
+        emit NFTMinted(msg.sender, tokenId, uri);
         console.log(
             "An NFT w/ ID %s has been minted to %s",
             tokenId,
