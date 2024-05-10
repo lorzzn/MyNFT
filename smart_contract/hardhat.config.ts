@@ -10,8 +10,8 @@ const config: HardhatUserConfig = {
       chainId: 1337,
     },
     sepolia: {
-      url: process.env.QUICKNODE_API_KEY_URL,
-      accounts: [process.env.GOERLI_PRIVATE_KEY!],
+      url: process.env.INFURA_API_KEY_URL,
+      accounts: [process.env.SEPOLIA_PRIVATE_KEY!],
     },
   },
 };

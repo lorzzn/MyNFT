@@ -32,3 +32,10 @@ run `yarn install` first.
 `yarn hh:deploy-localhost`: deploy contract to localhost.
 
 `yarn hh:deploy-sepolia`: deploy contract to sepolia.
+
+## environment Variables
+
+|key|description|
+|---|-----------|
+|INFURA_API_KEY_URL| https://sepolia.infura.io/v3/`infura API Keys` |
+|SEPOLIA_PRIVATE_KEY| Your account private key, see [deploying-to-a-live-network](https://hardhat.org/tutorial/deploying-to-a-live-network) |
