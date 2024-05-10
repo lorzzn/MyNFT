@@ -1,3 +1,4 @@
+import AppBg from "@/components/AppBg"
 import Content from "./content"
 import Header from "./header"
 import Providers from "./providers"
@@ -11,6 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
     <Providers>
       <div className="flex flex-col min-h-screen">
         <Header />
+        <AppBg />
         <Content>{children}</Content>
       </div>
     </Providers>

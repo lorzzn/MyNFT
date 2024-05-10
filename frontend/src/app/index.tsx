@@ -2,7 +2,7 @@
 
 import abis from "@/abis"
 import NFTCard from "@/components/NFTCard"
-import { Button, Card, CardBody, useToast } from "@chakra-ui/react"
+import { Button, Text, useToast } from "@chakra-ui/react"
 import { RiHammerFill } from "@remixicon/react"
 import { useEffect } from "react"
 import { BaseError } from "viem"
@@ -70,19 +70,18 @@ const App = () => {
 
   return (
     <div className="flex-1 flex flex-col">
+      <div className="flex items-center justify-between">
+        <Text fontSize={"2xl"} fontWeight={"medium"} className="py-6">
+          NFT List
+        </Text>
+
+        <Button isLoading={writeFn.isPending} onClick={handleMint} className="space-x-3">
+          <RiHammerFill size={"1.2rem"} />
+          <span>Mint MyNFT</span>
+        </Button>
+      </div>
       <div className="flex flex-wrap items-center">
         {data.map((item) => item && <NFTCard data={item[1]} key={item[0]} />)}
-        <Card>
-          <CardBody
-            as={Button}
-            className="aspect-square !h-36 flex-col space-y-3"
-            onClick={handleMint}
-            isLoading={writeFn.isPending}
-          >
-            <RiHammerFill size={"1.2rem"} />
-            <span>Mint MyNFT</span>
-          </CardBody>
-        </Card>
       </div>
     </div>
   )

@@ -13,8 +13,8 @@ const NFTCard = ({ data }: NFTCardProps) => {
   const nft = JSON.parse(json) as MyNFT
 
   return (
-    <Card>
-      <CardBody padding={0} position={"relative"} as={Button}>
+    <Card className="nft-card w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 2xl:w-1/4 !bg-transparent !shadow-none">
+      <CardBody className="p-0 relative !bg-transparent" as={Button}>
         <Box>
           <Image boxSize="150px" objectFit="cover" src={nft.image} alt={nft.name} />
         </Box>
