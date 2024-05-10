@@ -88,20 +88,21 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
     }
 
     function getOwnerNFTs(
+        address account,
         uint256 pageNo,
         uint256 pageSize
     ) public view returns (string[2][] memory) {
         require(pageNo > 0, "Invalid page number.");
         require(pageSize > 0, "Invalid page size.");
 
-        uint256 total = balanceOf(msg.sender);
+        uint256 total = balanceOf(account);
         uint256 start = (pageNo - 1) * pageSize;
         uint256 end = (pageNo * pageSize) > total ? total : pageNo * pageSize;
         string[2][] memory pairs = new string[2][](end - start);
 
         uint256 index = start;
         while (index < end) {
-            uint256 tokenId = tokenOfOwnerByIndex(msg.sender, index);
+            uint256 tokenId = tokenOfOwnerByIndex(account, index);
             pairs[index] = [Strings.toString(tokenId), tokenURI(tokenId)];
             index += 1;
         }
