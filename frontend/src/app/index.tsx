@@ -5,6 +5,7 @@ import NFTCard from "@/components/NFTCard"
 import { Button, Text, useToast } from "@chakra-ui/react"
 import { RiHammerFill } from "@remixicon/react"
 import { useEffect } from "react"
+import { Else, If, Then, When } from "react-if"
 import { BaseError } from "viem"
 import { useAccount, useInfiniteReadContracts, useWriteContract } from "wagmi"
 
@@ -39,7 +40,15 @@ const App = () => {
   })
   const writeFn = useWriteContract({
     mutation: {
-      onSuccess: () => nfts.refetch(),
+      onSuccess: (data) => {
+        toast({
+          title: "Mint Success",
+          description: `NFT Minted: ${data}`,
+          status: "success",
+          duration: 1600,
+        })
+        nfts.refetch()
+      },
     },
   })
 
@@ -69,21 +78,36 @@ const App = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col">
-      <div className="flex items-center justify-between">
-        <Text fontSize={"2xl"} fontWeight={"medium"} className="py-6">
-          NFT List
-        </Text>
+    <If condition={!!account.address}>
+      <Then>
+        <div className="flex-1 flex flex-col">
+          <div className="flex items-center justify-between">
+            <Text fontSize={"2xl"} fontWeight={"medium"} className="py-6">
+              <span>NFT List</span>
+              <When condition={data.length === 0}>
+                <span className="text-gray-400 text-base ml-2">(No items.)</span>
+              </When>
+            </Text>
 
-        <Button isLoading={writeFn.isPending} onClick={handleMint} className="space-x-3">
-          <RiHammerFill size={"1.2rem"} />
-          <span>Mint MyNFT</span>
-        </Button>
-      </div>
-      <div className="flex flex-wrap items-center">
-        {data.map((item) => item && <NFTCard data={item[1]} key={item[0]} />)}
-      </div>
-    </div>
+            <Button isLoading={writeFn.isPending} onClick={handleMint} className="space-x-3">
+              <RiHammerFill size={"1.2rem"} />
+              <span>Mint MyNFT</span>
+            </Button>
+          </div>
+          <div className="flex flex-wrap items-center">
+            {data.map((item) => item && <NFTCard data={item[1]} key={item[0]} />)}
+          </div>
+        </div>
+      </Then>
+
+      <Else>
+        <div className="flex flex-1 items-center justify-center">
+          <Text fontSize={"xl"} fontWeight={"medium"}>
+            Please connect wallet.
+          </Text>
+        </div>
+      </Else>
+    </If>
   )
 }
 
