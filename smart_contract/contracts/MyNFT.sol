@@ -91,6 +91,9 @@ contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
         uint256 pageNo,
         uint256 pageSize
     ) public view returns (string[2][] memory) {
+        require(pageNo > 0, "Invalid page number.");
+        require(pageSize > 0, "Invalid page size.");
+
         uint256 total = balanceOf(msg.sender);
         uint256 start = (pageNo - 1) * pageSize;
         uint256 end = (pageNo * pageSize) > total ? total : pageNo * pageSize;
