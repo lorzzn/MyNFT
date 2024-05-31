@@ -1,6 +1,6 @@
-# This is a nft demo project
+# A nft demo project
 
-this project inclide frontend and contracts.
+this project includes frontend and contracts.
 > This is just a demo, so I only enabled sepolia for the production mode, and there will be an extra localhost for the development mode.
 
 # frontend
@@ -11,13 +11,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 `yarn install` then `yarn dev`
 
-## environment Variables
+## Environment Variables
 
 |key|description|
 |---|-----------|
 |NEXT_PUBLIC_ENABLE_TESTNETS| Whether to enable the testnets, `true` \| `false` |
 |NEXT_PUBLIC_WC_PROJECT_ID| WalletConnect Cloud projectId, see [configure](https://www.rainbowkit.com/docs/installation#configure)|
-|NEXT_PUBLIC_CONTRACT_ADDRESS| Contract depolyed address |
+|NEXT_PUBLIC_CONTRACT_ADDRESS| Contract deployed address |
 
 # Contract
 
@@ -33,9 +33,9 @@ run `yarn install` first.
 
 `yarn hh:deploy-sepolia`: deploy contract to sepolia.
 
-## environment Variables
+## Environment Variables
 
 |key|description|
 |---|-----------|
-|INFURA_API_KEY_URL| https://sepolia.infura.io/v3/`infura API Keys` |
+|INFURA_API_KEY_URL| https://sepolia.infura.io/v3/ `infura API Keys` |
 |SEPOLIA_PRIVATE_KEY| Your account private key, see [deploying-to-a-live-network](https://hardhat.org/tutorial/deploying-to-a-live-network) |
